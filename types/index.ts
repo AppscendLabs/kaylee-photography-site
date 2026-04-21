@@ -14,10 +14,7 @@ export interface FeaturedWork {
   alt: string;
   title: string;
   category: string;
-  colSpan: string;
-  aspectRatio: string;
   delay: number;
-  offsetClass?: string;
 }
 
 export interface Package {

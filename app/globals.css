@@ -1,10 +1,9 @@
 @import "tailwindcss";
+@source "../lib/constants.ts";
 
 :root {
   --background: #F8F8F6;
   --foreground: #1A1A1A;
-  --font-cormorant: var(--font-cormorant);
-  --font-inter: var(--font-inter);
 }
 
 @theme inline {
@@ -14,10 +13,12 @@
   --font-serif: var(--font-cormorant);
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+@layer base {
+  * {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+  }
 }
 
 html,
