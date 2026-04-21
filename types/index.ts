@@ -1,0 +1,54 @@
+export interface NavLink {
+  name: string;
+  path: string;
+}
+
+export interface PortfolioImage {
+  src: string;
+  alt: string;
+  category: "portraits" | "families" | "events" | "lifestyle";
+}
+
+export interface FeaturedWork {
+  src: string;
+  alt: string;
+  title: string;
+  category: string;
+  colSpan: string;
+  aspectRatio: string;
+  delay: number;
+  offsetClass?: string;
+}
+
+export interface Package {
+  name: string;
+  price: string;
+  desc: string;
+  features: string[];
+}
+
+// Serializable booking type (dates as ISO strings for client components)
+export interface BookingRequest {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  sessionDate: string;
+  sessionTime: string;
+  sessionType: string;
+  message: string;
+  status: "PENDING" | "APPROVED" | "DECLINED";
+  paymentStatus: "UNPAID" | "DEPOSIT_PENDING" | "DEPOSIT_PAID" | "FULLY_PAID" | "REFUNDED";
+  depositAmount: number;
+  createdAt: string;
+}
+
+export interface PackageSetting {
+  id: string;
+  packageKey: string;
+  label: string;
+  depositCents: number;
+}
+
+export type BookingStep = 1 | 2;
+export type AdminTab = "requests" | "schedule" | "settings" | "packages";

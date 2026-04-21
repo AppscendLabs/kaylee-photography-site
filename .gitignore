@@ -22,7 +22,12 @@
 
 # misc
 .DS_Store
+Thumbs.db
 *.pem
+*.key
+*.cert
+*.p12
+*.pfx
 
 # debug
 npm-debug.log*
@@ -30,8 +35,30 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
+# env files — never commit real credentials
+.env
+.env.local
+.env.development
+.env.development.local
+.env.test
+.env.test.local
+.env.production
+.env.production.local
+# .env.example is intentionally NOT ignored (contains no real values)
+
+# database — SQLite files contain real user data
+*.db
+*.db-shm
+*.db-wal
+prisma/*.db
+prisma/*.db-shm
+prisma/*.db-wal
+
+# Prisma generated client (regenerated via postinstall)
+/node_modules/.prisma
+
+# Stripe CLI
+.stripe/
 
 # vercel
 .vercel
@@ -39,3 +66,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# editor
+.vscode/settings.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

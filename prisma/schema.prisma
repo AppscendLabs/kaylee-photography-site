@@ -1,0 +1,42 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model BookingRequest {
+  id              String   @id @default(cuid())
+  firstName       String
+  lastName        String
+  email           String
+  sessionDate     DateTime
+  sessionTime     String
+  sessionType     String
+  message         String
+  status          String   @default("PENDING")
+  paymentStatus   String   @default("UNPAID")
+  stripeSessionId String?
+  depositAmount   Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model PackageSetting {
+  id           String   @id @default(cuid())
+  packageKey   String   @unique
+  label        String
+  depositCents Int
+  updatedAt    DateTime @updatedAt @default(now())
+}
