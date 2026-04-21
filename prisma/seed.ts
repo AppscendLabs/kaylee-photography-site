@@ -22,7 +22,7 @@ async function main() {
     console.log(`✓ User: ${u.email}`);
   }
 
-  // Default deposit amounts (50% of package price)
+  // Default deposit amounts (~50% of package price)
   const packageDefaults = [
     { packageKey: "portrait", label: "The Portrait Session", depositCents: 22500 },
     { packageKey: "family", label: "The Family Collection", depositCents: 32500 },
@@ -39,8 +39,98 @@ async function main() {
     console.log(`✓ Package: ${p.label} → $${(p.depositCents / 100).toFixed(2)} deposit`);
   }
 
+  // Test bookings — covers every status combo so the admin panel looks real
+  const bookings = [
+    {
+      firstName: "Emily",
+      lastName: "Chen",
+      email: "emily.chen@example.com",
+      sessionDate: new Date("2026-05-10T00:00:00.000Z"),
+      sessionTime: "02:00 PM",
+      sessionType: "portrait",
+      message: "Looking for natural light portraits for my professional headshots. I prefer outdoor locations with greenery.",
+      status: "PENDING",
+      paymentStatus: "UNPAID",
+      depositAmount: 22500,
+    },
+    {
+      firstName: "Marcus",
+      lastName: "Johnson",
+      email: "marcus.j@example.com",
+      sessionDate: new Date("2026-05-18T00:00:00.000Z"),
+      sessionTime: "11:30 AM",
+      sessionType: "family",
+      message: "Family of four including two kids (ages 5 and 8). Would love a mix of posed and candid shots at a park.",
+      status: "PENDING",
+      paymentStatus: "UNPAID",
+      depositAmount: 32500,
+    },
+    {
+      firstName: "Sarah",
+      lastName: "Okafor",
+      email: "sarah.okafor@example.com",
+      sessionDate: new Date("2026-05-24T00:00:00.000Z"),
+      sessionTime: "04:30 PM",
+      sessionType: "event",
+      message: "Corporate product launch event, approximately 200 guests. Need full coverage from setup through networking.",
+      status: "APPROVED",
+      paymentStatus: "UNPAID",
+      depositAmount: 60000,
+    },
+    {
+      firstName: "James",
+      lastName: "Rivera",
+      email: "james.rivera@example.com",
+      sessionDate: new Date("2026-06-03T00:00:00.000Z"),
+      sessionTime: "09:00 AM",
+      sessionType: "portrait",
+      message: "Engagement shoot for me and my partner. We want something romantic and editorial.",
+      status: "APPROVED",
+      paymentStatus: "DEPOSIT_PAID",
+      depositAmount: 22500,
+    },
+    {
+      firstName: "Priya",
+      lastName: "Nair",
+      email: "priya.nair@example.com",
+      sessionDate: new Date("2026-04-12T00:00:00.000Z"),
+      sessionTime: "11:30 AM",
+      sessionType: "custom",
+      message: "Maternity shoot at 32 weeks. Interested in both studio-style and outdoor looks.",
+      status: "APPROVED",
+      paymentStatus: "DEPOSIT_PAID",
+      depositAmount: 25000,
+    },
+    {
+      firstName: "Derek",
+      lastName: "Walsh",
+      email: "derek.walsh@example.com",
+      sessionDate: new Date("2026-04-05T00:00:00.000Z"),
+      sessionTime: "02:00 PM",
+      sessionType: "family",
+      message: "Annual family photos with grandparents visiting from out of town.",
+      status: "DECLINED",
+      paymentStatus: "UNPAID",
+      depositAmount: 32500,
+    },
+  ];
+
+  for (const b of bookings) {
+    await prisma.bookingRequest.upsert({
+      where: {
+        // Upsert by a combination we can reliably identify — use email+sessionDate
+        // Since there's no unique constraint on those, we create only, skip on re-run
+        // by catching duplicates via a synthetic unique check below
+        id: `seed-${b.email.split("@")[0]}`,
+      },
+      update: {},
+      create: { id: `seed-${b.email.split("@")[0]}`, ...b },
+    });
+    console.log(`✓ Booking: ${b.firstName} ${b.lastName} (${b.status})`);
+  }
+
   console.log("\n✅ Seed complete.");
-  console.log("⚠️  Change passwords after first login via the admin panel.");
+  console.log("⚠️  Change admin passwords after first login.");
 }
 
 main()
