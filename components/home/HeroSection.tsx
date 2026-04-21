@@ -8,7 +8,7 @@ export default function HeroSection() {
   const container = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: container,
-    offset: ["start start", "end end"],
+    offset: ["start start", "end start"],
   });
 
   const y = useTransform(scrollYProgress, [0, 1], ["0vh", "50vh"]);
