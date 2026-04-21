@@ -27,9 +27,6 @@ const FILTERS: { label: string; value: Filter }[] = [
   { label: "Events", value: "events" },
 ];
 
-// Pass gutter via gutterBreakPoints so ResponsiveMasonry doesn't override
-// the Masonry gutter prop with its own "10px" default.
-const GUTTER_BREAKPOINTS = { 0: "1rem", 750: "2rem" };
 
 export default function WorksGallery() {
   const [activeFilter, setActiveFilter] = useState<Filter>("all");
@@ -71,7 +68,7 @@ export default function WorksGallery() {
 
       <ResponsiveMasonry
         columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3 }}
-        gutterBreakPoints={GUTTER_BREAKPOINTS}
+        gutterBreakPoints={{ 0: "1rem", 750: "2rem" } as { [key: number]: number }}
         style={{ width: "100%" }}
       >
         <Masonry>
