@@ -10,7 +10,7 @@ export default function AboutTeaser() {
       whileInView={{ opacity: 1 }}
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 1 }}
-      className="py-24 md:py-32 px-6 bg-[#1A1A1A] text-[#F8F8F6] flex flex-col items-center text-center"
+      className="py-40 md:py-56 px-8 md:px-24 bg-[#1A1A1A] text-[#F8F8F6] flex flex-col items-center text-center"
     >
       <h2 className="text-3xl md:text-5xl font-serif mb-8 max-w-3xl leading-snug">
         &ldquo;Photography is the story I fail to put into words. It is an exploration of light,

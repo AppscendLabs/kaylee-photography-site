@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import WorksGallery from "@/components/works/WorksGallery";
-import WorksHeader from "@/components/works/WorksHeader";
 
 export const metadata: Metadata = {
   title: "Selected Works",
@@ -10,8 +9,7 @@ export const metadata: Metadata = {
 
 export default function WorksPage() {
   return (
-    <div className="pt-32 pb-24 px-6 md:px-12 max-w-[1600px] mx-auto min-h-screen bg-[#F8F8F6]">
-      <WorksHeader />
+    <div className="pt-32 pb-24 px-6 md:px-12 w-full max-w-[1600px] mx-auto min-h-screen bg-[#F8F8F6]">
       <WorksGallery />
     </div>
   );
