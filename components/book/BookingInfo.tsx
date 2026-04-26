@@ -24,7 +24,7 @@ export default function BookingInfo() {
             <p className="font-light text-sm">
               Available Worldwide.
               <br />
-              Based in New York City.
+              Based in Star, Idaho.
             </p>
           </div>
           <div>
@@ -32,10 +32,10 @@ export default function BookingInfo() {
               Direct Inquiry
             </h3>
             <a
-              href="mailto:hello@kayleelight.com"
+              href="mailto:kayleelightphotography@gmail.com"
               className="font-light text-sm hover:underline"
             >
-              hello@kayleelight.com
+              kayleelightphotography@gmail.com
             </a>
           </div>
         </div>

@@ -135,7 +135,7 @@ function buildDepositEmailHtml(p: EmailTemplateParams): string {
                 </tr>
               </table>
               <p style="font-family:'Helvetica Neue',sans-serif;font-size:13px;color:#999;line-height:1.7;margin:0;">
-                This deposit secures your date. The remaining balance is due on the day of your session. If you have any questions, reply to this email or reach me at <a href="mailto:hello@kayleelight.com" style="color:#1A1A1A;">hello@kayleelight.com</a>.
+                This deposit secures your date. The remaining balance is due on the day of your session. If you have any questions, reply to this email or reach me at <a href="mailto:kayleelightphotography@gmail.com" style="color:#1A1A1A;">kayleelightphotography@gmail.com</a>.
               </p>
             </td>
           </tr>
@@ -143,7 +143,7 @@ function buildDepositEmailHtml(p: EmailTemplateParams): string {
           <tr>
             <td style="border-top:1px solid #e5e5e5;padding:24px 48px;text-align:center;">
               <p style="font-family:'Helvetica Neue',sans-serif;font-size:11px;color:#bbb;letter-spacing:1px;margin:0;">
-                Kaylee Light Photography &nbsp;·&nbsp; New York City &nbsp;·&nbsp; Available Worldwide
+                Kaylee Light Photography &nbsp;·&nbsp; Star, Idaho &nbsp;·&nbsp; Available Worldwide
               </p>
             </td>
           </tr>

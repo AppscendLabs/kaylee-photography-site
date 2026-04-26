@@ -23,8 +23,8 @@ export const metadata: Metadata = {
     template: "%s | Kaylee Light Photography",
   },
   description:
-    "Portrait, Family & Event Photography by Kaylee Light. Based in New York City, available worldwide.",
-  keywords: ["photography", "portrait", "family", "events", "New York", "Kaylee Light"],
+    "Portrait, Family & Event Photography by Kaylee Light. Based in Star, Idaho, available worldwide.",
+  keywords: ["photography", "portrait", "family", "events", "Idaho", "Star Idaho", "Kaylee Light"],
   openGraph: {
     type: "website",
     locale: "en_US",
