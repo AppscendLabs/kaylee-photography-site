@@ -1,7 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { stripe, formatCents } from "@/lib/stripe";
+import { getStripe, formatCents } from "@/lib/stripe";
 import { prisma } from "@/lib/db";
 import { getSession } from "@/lib/session";
 
@@ -11,7 +11,7 @@ export async function createCheckoutSession(bookingId: string): Promise<void> {
 
   const siteUrl = process.env.NEXT_PUBLIC_URL ?? "http://localhost:3000";
 
-  const session = await stripe.checkout.sessions.create({
+  const session = await getStripe().checkout.sessions.create({
     payment_method_types: ["card"],
     mode: "payment",
     customer_email: booking.email,
