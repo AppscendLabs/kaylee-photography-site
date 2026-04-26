@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { bookingSchema } from "@/lib/validations";
+import { sendBookingNotification } from "@/lib/email";
 import { z } from "zod";
 
 export async function POST(req: NextRequest) {
@@ -41,6 +42,16 @@ export async function POST(req: NextRequest) {
       depositAmount,
     },
   });
+
+  // Notify Kaylee — fire and forget, don't block the response
+  sendBookingNotification({
+    clientName: `${booking.firstName} ${booking.lastName}`,
+    clientEmail: booking.email,
+    sessionType: booking.sessionType,
+    sessionDate: booking.sessionDate,
+    sessionTime: booking.sessionTime,
+    message: booking.message,
+  }).catch((err) => console.error("Booking notification email failed:", err));
 
   return NextResponse.json({ id: booking.id }, { status: 201 });
 }

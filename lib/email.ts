@@ -14,6 +14,115 @@ function createTransporter() {
   });
 }
 
+interface BookingNotificationParams {
+  clientName: string;
+  clientEmail: string;
+  sessionType: string;
+  sessionDate: Date;
+  sessionTime: string;
+  message: string;
+}
+
+export async function sendBookingNotification(params: BookingNotificationParams): Promise<void> {
+  const { clientName, clientEmail, sessionType, sessionDate, sessionTime, message } = params;
+
+  const siteUrl = process.env.NEXT_PUBLIC_URL ?? "http://localhost:3000";
+  const adminUrl = `${siteUrl}/admin`;
+
+  const sessionDateFormatted = new Intl.DateTimeFormat("en-US", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  }).format(sessionDate);
+
+  const transporter = createTransporter();
+
+  await transporter.sendMail({
+    from: `${SITE_NAME} <${GMAIL_USER}>`,
+    to: GMAIL_USER,
+    replyTo: clientEmail,
+    subject: `New Booking Request — ${clientName}`,
+    html: `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body style="margin:0;padding:0;background:#F8F8F6;font-family:'Georgia',serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#F8F8F6;padding:48px 16px;">
+    <tr>
+      <td align="center">
+        <table width="560" cellpadding="0" cellspacing="0" style="background:#ffffff;border:1px solid #e5e5e5;max-width:560px;width:100%;">
+          <tr>
+            <td style="background:#1A1A1A;padding:32px 48px;text-align:center;">
+              <p style="color:#F8F8F6;font-size:11px;letter-spacing:4px;text-transform:uppercase;margin:0 0 8px;">Kaylee Light Photography</p>
+              <h1 style="color:#F8F8F6;font-size:24px;font-weight:400;margin:0;letter-spacing:1px;">New Booking Request</h1>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:40px 48px;">
+              <table width="100%" cellpadding="0" cellspacing="0" style="background:#F8F8F6;border:1px solid #e5e5e5;margin-bottom:32px;">
+                <tr>
+                  <td style="padding:24px 28px;">
+                    <p style="font-family:'Helvetica Neue',sans-serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#999;margin:0 0 16px;">Request Details</p>
+                    <table width="100%">
+                      <tr>
+                        <td style="font-family:'Helvetica Neue',sans-serif;font-size:13px;color:#777;padding:4px 0;">Client</td>
+                        <td style="font-family:'Helvetica Neue',sans-serif;font-size:13px;color:#1A1A1A;text-align:right;font-weight:500;">${clientName}</td>
+                      </tr>
+                      <tr>
+                        <td style="font-family:'Helvetica Neue',sans-serif;font-size:13px;color:#777;padding:4px 0;">Email</td>
+                        <td style="font-family:'Helvetica Neue',sans-serif;font-size:13px;color:#1A1A1A;text-align:right;font-weight:500;">${clientEmail}</td>
+                      </tr>
+                      <tr>
+                        <td style="font-family:'Helvetica Neue',sans-serif;font-size:13px;color:#777;padding:4px 0;">Session</td>
+                        <td style="font-family:'Helvetica Neue',sans-serif;font-size:13px;color:#1A1A1A;text-align:right;font-weight:500;">${sessionType}</td>
+                      </tr>
+                      <tr>
+                        <td style="font-family:'Helvetica Neue',sans-serif;font-size:13px;color:#777;padding:4px 0;">Date</td>
+                        <td style="font-family:'Helvetica Neue',sans-serif;font-size:13px;color:#1A1A1A;text-align:right;font-weight:500;">${sessionDateFormatted}</td>
+                      </tr>
+                      <tr>
+                        <td style="font-family:'Helvetica Neue',sans-serif;font-size:13px;color:#777;padding:4px 0;">Time</td>
+                        <td style="font-family:'Helvetica Neue',sans-serif;font-size:13px;color:#1A1A1A;text-align:right;font-weight:500;">${sessionTime}</td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+              ${message ? `
+              <div style="border-left:2px solid #e5e5e5;padding-left:16px;margin-bottom:32px;">
+                <p style="font-family:'Helvetica Neue',sans-serif;font-size:13px;color:#777;font-style:italic;line-height:1.7;margin:0;">"${message}"</p>
+              </div>` : ""}
+              <table width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td align="center">
+                    <a href="${adminUrl}" style="display:inline-block;background:#1A1A1A;color:#F8F8F6;font-family:'Helvetica Neue',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;text-decoration:none;padding:16px 40px;">
+                      View in Admin Panel
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td style="border-top:1px solid #e5e5e5;padding:24px 48px;text-align:center;">
+              <p style="font-family:'Helvetica Neue',sans-serif;font-size:11px;color:#bbb;letter-spacing:1px;margin:0;">
+                Kaylee Light Photography &nbsp;·&nbsp; Star, Idaho &nbsp;·&nbsp; Available Worldwide
+              </p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`,
+  });
+}
+
 interface DepositEmailParams {
   clientName: string;
   clientEmail: string;
