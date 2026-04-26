@@ -1,10 +1,18 @@
-import { Resend } from "resend";
+import nodemailer from "nodemailer";
 import { formatCents } from "./stripe";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
-const FROM_EMAIL = process.env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev";
 const SITE_NAME = "Kaylee Light Photography";
+const GMAIL_USER = process.env.GMAIL_USER ?? "";
+
+function createTransporter() {
+  return nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: GMAIL_USER,
+      pass: process.env.GMAIL_APP_PASSWORD,
+    },
+  });
+}
 
 interface DepositEmailParams {
   clientName: string;
@@ -37,9 +45,12 @@ export async function sendDepositEmail(params: DepositEmailParams): Promise<void
     day: "numeric",
   }).format(sessionDate);
 
-  await resend.emails.send({
-    from: `${SITE_NAME} <${FROM_EMAIL}>`,
+  const transporter = createTransporter();
+
+  await transporter.sendMail({
+    from: `${SITE_NAME} <${GMAIL_USER}>`,
     to: clientEmail,
+    replyTo: GMAIL_USER,
     subject: `Your Photography Session is Confirmed — Deposit Required`,
     html: buildDepositEmailHtml({
       clientName,
