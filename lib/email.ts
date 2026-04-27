@@ -1,18 +1,15 @@
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 import { formatCents } from "./stripe";
 
-const SITE_NAME = "Kaylee Light Photography";
-const GMAIL_USER = process.env.GMAIL_USER ?? "";
-
-function createTransporter() {
-  return nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: GMAIL_USER,
-      pass: process.env.GMAIL_APP_PASSWORD,
-    },
-  });
+let _resend: Resend | null = null;
+function getResend() {
+  if (!_resend) _resend = new Resend(process.env.RESEND_API_KEY);
+  return _resend;
 }
+
+const SITE_NAME = "Kaylee Light Photography";
+const FROM = `${SITE_NAME} <onboarding@resend.dev>`;
+const KAYLEE_EMAIL = "kayleelightphotography@gmail.com";
 
 interface BookingNotificationParams {
   clientName: string;
@@ -36,11 +33,9 @@ export async function sendBookingNotification(params: BookingNotificationParams)
     day: "numeric",
   }).format(sessionDate);
 
-  const transporter = createTransporter();
-
-  await transporter.sendMail({
-    from: `${SITE_NAME} <${GMAIL_USER}>`,
-    to: GMAIL_USER,
+  await getResend().emails.send({
+    from: FROM,
+    to: KAYLEE_EMAIL,
     replyTo: clientEmail,
     subject: `New Booking Request — ${clientName}`,
     html: `
@@ -134,15 +129,7 @@ interface DepositEmailParams {
 }
 
 export async function sendDepositEmail(params: DepositEmailParams): Promise<void> {
-  const {
-    clientName,
-    clientEmail,
-    sessionType,
-    sessionDate,
-    sessionTime,
-    depositCents,
-    bookingId,
-  } = params;
+  const { clientName, clientEmail, sessionType, sessionDate, sessionTime, depositCents, bookingId } = params;
 
   const siteUrl = process.env.NEXT_PUBLIC_URL ?? "http://localhost:3000";
   const paymentUrl = `${siteUrl}/pay/${bookingId}`;
@@ -154,12 +141,10 @@ export async function sendDepositEmail(params: DepositEmailParams): Promise<void
     day: "numeric",
   }).format(sessionDate);
 
-  const transporter = createTransporter();
-
-  await transporter.sendMail({
-    from: `${SITE_NAME} <${GMAIL_USER}>`,
+  await getResend().emails.send({
+    from: FROM,
     to: clientEmail,
-    replyTo: GMAIL_USER,
+    replyTo: KAYLEE_EMAIL,
     subject: `Your Photography Session is Confirmed — Deposit Required`,
     html: buildDepositEmailHtml({
       clientName,
@@ -195,27 +180,18 @@ function buildDepositEmailHtml(p: EmailTemplateParams): string {
     <tr>
       <td align="center">
         <table width="560" cellpadding="0" cellspacing="0" style="background:#ffffff;border:1px solid #e5e5e5;max-width:560px;width:100%;">
-          <!-- Header -->
           <tr>
             <td style="background:#1A1A1A;padding:40px 48px;text-align:center;">
-              <p style="color:#F8F8F6;font-size:11px;letter-spacing:4px;text-transform:uppercase;margin:0 0 8px;">
-                Kaylee Light Photography
-              </p>
-              <h1 style="color:#F8F8F6;font-size:28px;font-weight:400;margin:0;letter-spacing:1px;">
-                Session Confirmed
-              </h1>
+              <p style="color:#F8F8F6;font-size:11px;letter-spacing:4px;text-transform:uppercase;margin:0 0 8px;">Kaylee Light Photography</p>
+              <h1 style="color:#F8F8F6;font-size:28px;font-weight:400;margin:0;letter-spacing:1px;">Session Confirmed</h1>
             </td>
           </tr>
-          <!-- Body -->
           <tr>
             <td style="padding:48px;">
-              <p style="font-family:'Helvetica Neue',sans-serif;font-size:15px;color:#4a4a4a;line-height:1.7;margin:0 0 24px;">
-                Hi ${p.clientName},
-              </p>
+              <p style="font-family:'Helvetica Neue',sans-serif;font-size:15px;color:#4a4a4a;line-height:1.7;margin:0 0 24px;">Hi ${p.clientName},</p>
               <p style="font-family:'Helvetica Neue',sans-serif;font-size:15px;color:#4a4a4a;line-height:1.7;margin:0 0 32px;">
                 I'm so excited to work with you! Your session has been approved and is now ready to confirm. Please complete your deposit to lock in your date.
               </p>
-              <!-- Session Details Box -->
               <table width="100%" cellpadding="0" cellspacing="0" style="background:#F8F8F6;border:1px solid #e5e5e5;margin-bottom:32px;">
                 <tr>
                   <td style="padding:24px 28px;">
@@ -244,7 +220,6 @@ function buildDepositEmailHtml(p: EmailTemplateParams): string {
                   </td>
                 </tr>
               </table>
-              <!-- CTA Button -->
               <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:32px;">
                 <tr>
                   <td align="center">
@@ -259,7 +234,6 @@ function buildDepositEmailHtml(p: EmailTemplateParams): string {
               </p>
             </td>
           </tr>
-          <!-- Footer -->
           <tr>
             <td style="border-top:1px solid #e5e5e5;padding:24px 48px;text-align:center;">
               <p style="font-family:'Helvetica Neue',sans-serif;font-size:11px;color:#bbb;letter-spacing:1px;margin:0;">
