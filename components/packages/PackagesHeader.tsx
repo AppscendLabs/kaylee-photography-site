@@ -27,7 +27,7 @@ export default function PackagesHeader({ isPromoActive }: PackagesHeaderProps) {
           className="mt-8 inline-block border border-black px-6 py-3 text-sm font-light"
         >
           To celebrate my launch, I&apos;m offering{" "}
-          <span className="font-medium">50% off all sessions</span> through July 2026. I&apos;d love to work with you.
+          <span className="font-medium">50% off all sessions</span>{" "}through July 2026. I&apos;d love to work with you.
         </motion.div>
       )}
     </motion.div>
