@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Inter } from "next/font/google";
 import Navigation from "@/components/layout/Navigation";
+import PromoBanner from "@/components/layout/PromoBanner";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -47,6 +48,7 @@ export default function RootLayout({
       className={`${cormorant.variable} ${inter.variable}`}
     >
       <body className="bg-[#F8F8F6] text-[#1A1A1A] font-sans font-light antialiased">
+        <PromoBanner />
         <Navigation />
         <main>{children}</main>
       </body>
