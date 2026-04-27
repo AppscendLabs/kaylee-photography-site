@@ -30,7 +30,7 @@ export default function HeroSection() {
         />
       </motion.div>
 
-      <div className="z-10 text-center text-white px-6 mt-20 mix-blend-difference">
+      <div className="z-10 text-center text-white px-6 mix-blend-difference">
         <motion.h1
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}

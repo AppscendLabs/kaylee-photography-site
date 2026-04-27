@@ -13,7 +13,7 @@ export default function Navigation() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 w-full z-50 flex justify-between items-center p-6 md:p-8 mix-blend-difference text-white">
+      <header className="sticky top-0 w-full z-50 flex justify-between items-center p-6 md:p-8 mix-blend-difference text-white">
         <Link
           href="/"
           className="text-xl md:text-2xl font-serif font-medium uppercase tracking-widest relative group"

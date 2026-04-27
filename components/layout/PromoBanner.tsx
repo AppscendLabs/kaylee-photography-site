@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { X } from "lucide-react";
 
 const EXPIRY = new Date("2026-07-26T00:00:00.000Z");
@@ -23,11 +24,17 @@ export default function PromoBanner() {
   if (!visible) return null;
 
   return (
-    <div className="bg-[#1A1A1A] text-[#F8F8F6] px-6 py-3 flex items-center justify-center gap-4 relative">
+    <div className="bg-[#1A1A1A] text-[#F8F8F6] px-10 py-3 flex items-center justify-center gap-4 relative">
       <p className="text-xs font-light tracking-wide text-center leading-relaxed">
         To celebrate my launch, I&apos;m offering{" "}
         <span className="font-medium">50% off all sessions</span> for a limited time.
-        I&apos;d love to work with you.
+        I&apos;d love to work with you.{" "}
+        <Link
+          href="/packages"
+          className="underline underline-offset-2 hover:opacity-70 transition-opacity whitespace-nowrap"
+        >
+          View packages →
+        </Link>
       </p>
       <button
         onClick={dismiss}
