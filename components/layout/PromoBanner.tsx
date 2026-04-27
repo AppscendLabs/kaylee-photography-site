@@ -27,7 +27,7 @@ export default function PromoBanner() {
     <div className="bg-[#1A1A1A] text-[#F8F8F6] px-10 py-3 flex items-center justify-center gap-4 relative">
       <p className="text-xs font-light tracking-wide text-center leading-relaxed">
         To celebrate my launch, I&apos;m offering{" "}
-        <span className="font-medium">50% off all sessions</span> for a limited time.
+        <span className="font-medium">50% off all sessions</span>{" "}for a limited time.
         I&apos;d love to work with you.{" "}
         <Link
           href="/packages"
