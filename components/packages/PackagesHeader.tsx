@@ -2,7 +2,11 @@
 
 import { motion } from "framer-motion";
 
-export default function PackagesHeader() {
+interface PackagesHeaderProps {
+  isPromoActive: boolean;
+}
+
+export default function PackagesHeader({ isPromoActive }: PackagesHeaderProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -15,6 +19,17 @@ export default function PackagesHeader() {
         I believe your memories deserve to be preserved beautifully. Each collection is carefully
         crafted to offer a holistic storytelling experience.
       </p>
+      {isPromoActive && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="mt-8 inline-block border border-black px-6 py-3 text-sm font-light"
+        >
+          To celebrate my launch, I&apos;m offering{" "}
+          <span className="font-medium">50% off all sessions</span> through July 2026. I&apos;d love to work with you.
+        </motion.div>
+      )}
     </motion.div>
   );
 }

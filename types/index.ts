@@ -44,6 +44,7 @@ export interface PackageSetting {
   id: string;
   packageKey: string;
   label: string;
+  priceCents: number;
   depositCents: number;
 }
 

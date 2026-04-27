@@ -47,6 +47,7 @@ export default async function AdminPage() {
     id: s.id,
     packageKey: s.packageKey,
     label: s.label,
+    priceCents: s.priceCents,
     depositCents: s.depositCents,
   }));
 

@@ -24,16 +24,16 @@ async function main() {
 
   // Default deposit amounts (~50% of package price)
   const packageDefaults = [
-    { packageKey: "portrait", label: "The Portrait Session", depositCents: 22500 },
-    { packageKey: "family", label: "The Family Collection", depositCents: 32500 },
-    { packageKey: "event", label: "The Event Coverage", depositCents: 60000 },
-    { packageKey: "custom", label: "Custom / Other", depositCents: 25000 },
+    { packageKey: "portrait", label: "The Portrait Session", priceCents: 45000, depositCents: 22500 },
+    { packageKey: "family",   label: "The Family Collection", priceCents: 65000, depositCents: 32500 },
+    { packageKey: "event",    label: "The Event Coverage",    priceCents: 120000, depositCents: 60000 },
+    { packageKey: "custom",   label: "Custom / Other",        priceCents: 50000, depositCents: 25000 },
   ];
 
   for (const p of packageDefaults) {
     await prisma.packageSetting.upsert({
       where: { packageKey: p.packageKey },
-      update: {},
+      update: { priceCents: p.priceCents },
       create: p,
     });
     console.log(`✓ Package: ${p.label} → $${(p.depositCents / 100).toFixed(2)} deposit`);

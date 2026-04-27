@@ -38,6 +38,7 @@ model PackageSetting {
   id           String   @id @default(cuid())
   packageKey   String   @unique
   label        String
+  priceCents   Int      @default(0)
   depositCents Int
   updatedAt    DateTime @updatedAt @default(now())
 }
