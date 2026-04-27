@@ -84,7 +84,7 @@ export default function Navigation() {
             <div className="absolute bottom-6 md:bottom-12 left-6 md:left-24 right-6 md:right-24 flex justify-between items-end text-xs uppercase tracking-widest opacity-60">
               <div className="flex flex-col gap-2">
                 <a
-                  href="https://instagram.com"
+                  href="https://www.instagram.com/kaymariephotopage"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:opacity-100 transition-opacity"
