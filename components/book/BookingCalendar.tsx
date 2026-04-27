@@ -1,10 +1,10 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
 import { motion } from "framer-motion";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
-import { AVAILABLE_TIMES } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 interface BookingCalendarProps {
@@ -16,6 +16,13 @@ interface BookingCalendarProps {
   onNext: () => void;
 }
 
+interface Availability {
+  blockedDates: string[];
+  disabledDays: number[];
+  timeSlots: string[];
+  bookedSlots: { date: string; time: string }[];
+}
+
 export default function BookingCalendar({
   selectedDate,
   selectedTime,
@@ -24,6 +31,29 @@ export default function BookingCalendar({
   onSelectTime,
   onNext,
 }: BookingCalendarProps) {
+  const [availability, setAvailability] = useState<Availability | null>(null);
+
+  useEffect(() => {
+    fetch("/api/availability")
+      .then((r) => r.json())
+      .then(setAvailability)
+      .catch(console.error);
+  }, []);
+
+  const blockedDates = availability?.blockedDates.map((d) => new Date(d)) ?? [];
+  const disabledDaysOfWeek = availability?.disabledDays ?? [];
+
+  const availableTimes = availability
+    ? availability.timeSlots.filter((time) => {
+        if (!selectedDate) return true;
+        return !availability.bookedSlots.some(
+          (b) =>
+            new Date(b.date).toDateString() === selectedDate.toDateString() &&
+            b.time === time
+        );
+      })
+    : [];
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -37,7 +67,11 @@ export default function BookingCalendar({
           mode="single"
           selected={selectedDate}
           onSelect={onSelectDate}
-          disabled={{ before: new Date() }}
+          disabled={[
+            { before: new Date() },
+            ...blockedDates,
+            { dayOfWeek: disabledDaysOfWeek },
+          ]}
           className="font-sans font-light text-sm"
         />
       </div>
@@ -46,9 +80,13 @@ export default function BookingCalendar({
         <h3 className="text-xl font-serif mb-6">Available Times</h3>
         {!selectedDate ? (
           <p className="text-neutral-400 font-light text-sm italic">Please select a date first.</p>
+        ) : !availability ? (
+          <p className="text-neutral-400 font-light text-sm italic">Loading...</p>
+        ) : availableTimes.length === 0 ? (
+          <p className="text-neutral-400 font-light text-sm italic">No times available on this date.</p>
         ) : (
           <div className="flex flex-col gap-3">
-            {AVAILABLE_TIMES.map((time) => (
+            {availableTimes.map((time) => (
               <button
                 key={time}
                 type="button"

@@ -44,7 +44,14 @@ export interface PackageSetting {
   id: string;
   packageKey: string;
   label: string;
+  priceCents: number;
   depositCents: number;
+}
+
+export interface AvailabilityData {
+  blockedDates: string[];
+  workingDays: { dayOfWeek: number; isActive: boolean }[];
+  timeSlots: { time: string; isActive: boolean }[];
 }
 
 export type BookingStep = 1 | 2;

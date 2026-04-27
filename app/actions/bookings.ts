@@ -47,6 +47,26 @@ export async function sendDepositLink(bookingId: string): Promise<{ error?: stri
   return {};
 }
 
+export async function updatePackagePrice(
+  packageKey: string,
+  priceCents: number
+): Promise<{ error?: string }> {
+  await requireAuth();
+
+  if (priceCents < 100 || priceCents > 1_000_000_00) {
+    return { error: "Price must be between $1.00 and $100,000.00." };
+  }
+
+  await prisma.packageSetting.update({
+    where: { packageKey },
+    data: { priceCents },
+  });
+
+  revalidatePath("/admin");
+  revalidatePath("/packages");
+  return {};
+}
+
 export async function updatePackageDeposit(
   packageKey: string,
   depositCents: number

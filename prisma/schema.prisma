@@ -38,6 +38,27 @@ model PackageSetting {
   id           String   @id @default(cuid())
   packageKey   String   @unique
   label        String
+  priceCents   Int      @default(0)
   depositCents Int
   updatedAt    DateTime @updatedAt @default(now())
+}
+
+model BlockedDate {
+  id        String   @id @default(cuid())
+  date      DateTime @unique
+  reason    String?
+  createdAt DateTime @default(now())
+}
+
+model WorkingDay {
+  id        String  @id @default(cuid())
+  dayOfWeek Int     @unique
+  isActive  Boolean @default(true)
+}
+
+model AvailableTimeSlot {
+  id        String  @id @default(cuid())
+  time      String  @unique
+  isActive  Boolean @default(true)
+  sortOrder Int     @default(0)
 }
