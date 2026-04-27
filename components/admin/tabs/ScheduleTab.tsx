@@ -118,27 +118,22 @@ export default function ScheduleTab({ blockedDates: initialBlocked, workingDays:
           {/* Working days */}
           <div className="bg-white border border-neutral-200 p-6">
             <h3 className="text-sm uppercase tracking-widest font-medium mb-1">Working Days</h3>
-            <p className="text-xs text-neutral-400 font-light mb-4">Toggle which days of the week you accept bookings.</p>
-            <div className="flex flex-col gap-2">
+            <p className="text-xs text-neutral-400 font-light mb-4">Select which days of the week you accept bookings.</p>
+            <div className="grid grid-cols-2 gap-2">
               {days.map((d) => (
-                <label key={d.dayOfWeek} className="flex items-center justify-between cursor-pointer group">
-                  <span className={cn("text-sm font-light transition-colors", d.isActive ? "text-black" : "text-neutral-400")}>
-                    {DAY_NAMES[d.dayOfWeek]}
-                  </span>
-                  <button
-                    onClick={() => handleToggleDay(d.dayOfWeek, !d.isActive)}
-                    disabled={isPending}
-                    className={cn(
-                      "w-10 h-5 rounded-full transition-colors relative",
-                      d.isActive ? "bg-black" : "bg-neutral-200"
-                    )}
-                  >
-                    <span className={cn(
-                      "absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform",
-                      d.isActive ? "translate-x-5" : "translate-x-0.5"
-                    )} />
-                  </button>
-                </label>
+                <button
+                  key={d.dayOfWeek}
+                  onClick={() => handleToggleDay(d.dayOfWeek, !d.isActive)}
+                  disabled={isPending}
+                  className={cn(
+                    "py-2.5 px-4 text-sm font-light border transition-colors text-left",
+                    d.isActive
+                      ? "bg-black text-white border-black"
+                      : "bg-white text-neutral-400 border-neutral-200 hover:border-neutral-400"
+                  )}
+                >
+                  {DAY_NAMES[d.dayOfWeek]}
+                </button>
               ))}
             </div>
           </div>
@@ -149,32 +144,26 @@ export default function ScheduleTab({ blockedDates: initialBlocked, workingDays:
             <p className="text-xs text-neutral-400 font-light mb-4">Toggle or remove slots. Add custom times in 12-hour format (e.g. 10:00 AM).</p>
             <div className="flex flex-col gap-2 mb-4">
               {slots.map((s) => (
-                <div key={s.time} className="flex items-center justify-between gap-3">
-                  <span className={cn("text-sm font-light", !s.isActive && "line-through text-neutral-400")}>
+                <div key={s.time} className="flex items-center gap-2">
+                  <button
+                    onClick={() => handleToggleSlot(s.time, !s.isActive)}
+                    disabled={isPending}
+                    className={cn(
+                      "flex-1 py-2.5 px-4 text-sm font-light border transition-colors text-left",
+                      s.isActive
+                        ? "bg-black text-white border-black"
+                        : "bg-white text-neutral-400 border-neutral-200 hover:border-neutral-400 line-through"
+                    )}
+                  >
                     {s.time}
-                  </span>
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={() => handleToggleSlot(s.time, !s.isActive)}
-                      disabled={isPending}
-                      className={cn(
-                        "w-8 h-4 rounded-full transition-colors relative",
-                        s.isActive ? "bg-black" : "bg-neutral-200"
-                      )}
-                    >
-                      <span className={cn(
-                        "absolute top-0.5 w-3 h-3 bg-white rounded-full shadow transition-transform",
-                        s.isActive ? "translate-x-4" : "translate-x-0.5"
-                      )} />
-                    </button>
-                    <button
-                      onClick={() => handleRemoveSlot(s.time)}
-                      disabled={isPending}
-                      className="text-neutral-300 hover:text-red-500 transition-colors"
-                    >
-                      <Trash2 className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
+                  </button>
+                  <button
+                    onClick={() => handleRemoveSlot(s.time)}
+                    disabled={isPending}
+                    className="p-2.5 border border-neutral-200 text-neutral-300 hover:text-red-500 hover:border-red-200 transition-colors"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
                 </div>
               ))}
             </div>
