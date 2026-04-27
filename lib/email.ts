@@ -8,7 +8,7 @@ function getResend() {
 }
 
 const SITE_NAME = "Kaylee Light Photography";
-const FROM = `${SITE_NAME} <onboarding@resend.dev>`;
+const FROM = `${SITE_NAME} <noreply@kaymariephoto.com>`;
 const KAYLEE_EMAIL = "kayleelightphotography@gmail.com";
 
 interface BookingNotificationParams {

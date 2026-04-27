@@ -2,7 +2,7 @@
 
 import { useTransition, useState } from "react";
 import { format } from "date-fns";
-import { Calendar, CheckCircle2, Clock, Mail, XCircle } from "lucide-react";
+import { Calendar, CheckCircle2, Clock, Copy, Mail, XCircle } from "lucide-react";
 import { approveBooking, declineBooking, sendDepositLink } from "@/app/actions/bookings";
 import type { BookingRequest } from "@/types";
 import { cn } from "@/lib/utils";
@@ -139,16 +139,30 @@ export default function RequestsTab({ bookings }: RequestsTabProps) {
                     )}
 
                     {req.status === "APPROVED" && req.paymentStatus === "UNPAID" && (
-                      <button
-                        onClick={() =>
-                          handleAction(req.id, () => sendDepositLink(req.id))
-                        }
-                        disabled={isLoading}
-                        className="flex items-center gap-2 px-4 py-2 border border-black text-black text-xs uppercase tracking-widest hover:bg-neutral-50 transition-colors disabled:opacity-50"
-                      >
-                        <Mail className="w-3.5 h-3.5" />
-                        {isLoading ? "Sending..." : "Send Deposit Link"}
-                      </button>
+                      <div className="flex flex-col gap-2 w-full md:w-auto">
+                        <button
+                          onClick={() =>
+                            handleAction(req.id, () => sendDepositLink(req.id))
+                          }
+                          disabled={isLoading}
+                          className="flex items-center justify-center gap-2 px-4 py-2 border border-black text-black text-xs uppercase tracking-widest hover:bg-neutral-50 transition-colors disabled:opacity-50"
+                        >
+                          <Mail className="w-3.5 h-3.5" />
+                          {isLoading ? "Sending..." : "Send Deposit Link"}
+                        </button>
+                        <button
+                          onClick={() => {
+                            const url = `${window.location.origin}/pay/${req.id}`;
+                            navigator.clipboard.writeText(url);
+                            setFeedback((prev) => ({ ...prev, [`copy-${req.id}`]: "Copied!" }));
+                            setTimeout(() => setFeedback((prev) => { const n = { ...prev }; delete n[`copy-${req.id}`]; return n; }), 2000);
+                          }}
+                          className="flex items-center justify-center gap-2 px-4 py-2 border border-neutral-300 text-neutral-600 text-xs uppercase tracking-widest hover:bg-neutral-50 transition-colors"
+                        >
+                          <Copy className="w-3.5 h-3.5" />
+                          {feedback[`copy-${req.id}`] ?? "Copy Pay Link"}
+                        </button>
+                      </div>
                     )}
 
                     {req.status === "APPROVED" && req.paymentStatus === "DEPOSIT_PAID" && (
