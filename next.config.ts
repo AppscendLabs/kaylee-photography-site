@@ -17,7 +17,7 @@ const securityHeaders = [
       "script-src 'self' 'unsafe-eval' 'unsafe-inline'",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com",
-      "img-src 'self' data: https://images.unsplash.com blob:",
+      "img-src 'self' data: https://images.unsplash.com https://nms9piazzkio4nd8.public.blob.vercel-storage.com blob:",
       "connect-src 'self'",
       "frame-ancestors 'none'",
     ].join("; "),
@@ -30,6 +30,11 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "images.unsplash.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "nms9piazzkio4nd8.public.blob.vercel-storage.com",
         pathname: "/**",
       },
     ],

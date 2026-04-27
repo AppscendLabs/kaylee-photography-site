@@ -21,8 +21,8 @@ export default function HeroSection() {
       {/* Container is 120% tall so the image can travel during parallax without revealing a gap */}
       <motion.div style={{ y }} className="absolute z-0 inset-x-0 -top-[10%] h-[120%]">
         <Image
-          src="https://images.unsplash.com/photo-1660018322139-0e58555df00d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlZGl0b3JpYWwlMjBmYXNoaW9uJTIwcGhvdG9ncmFwaHl8ZW58MXx8fHwxNzc2NjU5MzQyfDA&ixlib=rb-4.1.0&q=80&w=2000"
-          alt="Editorial fashion photography hero"
+          src="https://nms9piazzkio4nd8.public.blob.vercel-storage.com/photos/20260421_214202_3F6145.JPEG"
+          alt="Kaylee Light Photography"
           fill
           priority
           className="object-cover object-center brightness-75"
