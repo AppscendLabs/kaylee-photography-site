@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+
+export const dynamic = "force-dynamic";
 import PackageCard from "@/components/packages/PackageCard";
 import CustomQuote from "@/components/packages/CustomQuote";
 import PackagesHeader from "@/components/packages/PackagesHeader";
