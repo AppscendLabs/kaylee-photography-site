@@ -129,6 +129,43 @@ async function main() {
     console.log(`✓ Booking: ${b.firstName} ${b.lastName} (${b.status})`);
   }
 
+  // Working days — Mon through Sat active, Sunday off
+  const workingDays = [
+    { dayOfWeek: 0, isActive: false }, // Sunday
+    { dayOfWeek: 1, isActive: true },  // Monday
+    { dayOfWeek: 2, isActive: true },  // Tuesday
+    { dayOfWeek: 3, isActive: true },  // Wednesday
+    { dayOfWeek: 4, isActive: true },  // Thursday
+    { dayOfWeek: 5, isActive: true },  // Friday
+    { dayOfWeek: 6, isActive: true },  // Saturday
+  ];
+
+  for (const d of workingDays) {
+    await prisma.workingDay.upsert({
+      where: { dayOfWeek: d.dayOfWeek },
+      update: {},
+      create: d,
+    });
+  }
+  console.log("✓ Working days seeded");
+
+  // Default time slots
+  const timeSlots = [
+    { time: "09:00 AM", sortOrder: 0 },
+    { time: "11:30 AM", sortOrder: 1 },
+    { time: "02:00 PM", sortOrder: 2 },
+    { time: "04:30 PM", sortOrder: 3 },
+  ];
+
+  for (const t of timeSlots) {
+    await prisma.availableTimeSlot.upsert({
+      where: { time: t.time },
+      update: {},
+      create: { ...t, isActive: true },
+    });
+  }
+  console.log("✓ Time slots seeded");
+
   console.log("\n✅ Seed complete.");
   console.log("⚠️  Change admin passwords after first login.");
 }

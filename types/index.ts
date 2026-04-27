@@ -47,5 +47,11 @@ export interface PackageSetting {
   depositCents: number;
 }
 
+export interface AvailabilityData {
+  blockedDates: string[];
+  workingDays: { dayOfWeek: number; isActive: boolean }[];
+  timeSlots: { time: string; isActive: boolean }[];
+}
+
 export type BookingStep = 1 | 2;
 export type AdminTab = "requests" | "schedule" | "settings" | "packages";
