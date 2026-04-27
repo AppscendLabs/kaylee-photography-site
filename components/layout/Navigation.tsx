@@ -65,10 +65,10 @@ export default function Navigation() {
                       href={link.path}
                       onClick={() => setIsOpen(false)}
                       className={[
-                        "text-4xl md:text-7xl lg:text-8xl font-serif hover:italic transition-all duration-300 flex items-center gap-6",
+                        "text-4xl md:text-7xl lg:text-8xl font-serif transition-[transform,opacity] duration-300 ease-out flex items-center gap-6",
                         pathname === link.path
-                          ? "italic opacity-100"
-                          : "opacity-60 hover:opacity-100",
+                          ? "-skew-x-6 opacity-100"
+                          : "opacity-60 hover:opacity-100 hover:-skew-x-6",
                       ].join(" ")}
                     >
                       <span className="text-sm md:text-xl font-sans font-light opacity-50 block md:w-16">
