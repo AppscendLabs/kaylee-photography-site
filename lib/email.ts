@@ -248,3 +248,57 @@ function buildDepositEmailHtml(p: EmailTemplateParams): string {
 </body>
 </html>`;
 }
+
+export async function sendPasswordResetEmail(email: string, resetUrl: string): Promise<void> {
+  await getResend().emails.send({
+    from: FROM,
+    to: email,
+    replyTo: KAYLEE_EMAIL,
+    subject: "Reset Your Password — Kaylee Light Photography",
+    html: `
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /></head>
+<body style="margin:0;padding:0;background:#F8F8F6;font-family:'Georgia',serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#F8F8F6;padding:48px 16px;">
+    <tr><td align="center">
+      <table width="560" cellpadding="0" cellspacing="0" style="background:#ffffff;border:1px solid #e5e5e5;max-width:560px;width:100%;">
+        <tr>
+          <td style="background:#1A1A1A;padding:32px 48px;text-align:center;">
+            <p style="color:#F8F8F6;font-size:11px;letter-spacing:4px;text-transform:uppercase;margin:0 0 8px;">Kaylee Light Photography</p>
+            <h1 style="color:#F8F8F6;font-size:24px;font-weight:400;margin:0;letter-spacing:1px;">Password Reset</h1>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:40px 48px;">
+            <p style="font-family:'Helvetica Neue',sans-serif;font-size:15px;color:#4a4a4a;line-height:1.7;margin:0 0 24px;">
+              You requested a password reset for your admin portal. Click the button below to set a new password. This link expires in 1 hour.
+            </p>
+            <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:32px;">
+              <tr>
+                <td align="center">
+                  <a href="${resetUrl}" style="display:inline-block;background:#1A1A1A;color:#F8F8F6;font-family:'Helvetica Neue',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;text-decoration:none;padding:16px 40px;">
+                    Reset Password
+                  </a>
+                </td>
+              </tr>
+            </table>
+            <p style="font-family:'Helvetica Neue',sans-serif;font-size:13px;color:#999;line-height:1.7;margin:0;">
+              If you didn't request this, you can safely ignore this email. Your password won't change.
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-top:1px solid #e5e5e5;padding:24px 48px;text-align:center;">
+            <p style="font-family:'Helvetica Neue',sans-serif;font-size:11px;color:#bbb;letter-spacing:1px;margin:0;">
+              Kaylee Light Photography &nbsp;·&nbsp; Star, Idaho &nbsp;·&nbsp; Available Worldwide
+            </p>
+          </td>
+        </tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`,
+  });
+}

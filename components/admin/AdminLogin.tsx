@@ -79,7 +79,13 @@ export default function AdminLogin() {
           </button>
         </form>
 
-        <div className="mt-6 text-center">
+        <div className="mt-6 flex items-center justify-between">
+          <Link
+            href="/admin/forgot-password"
+            className="text-xs uppercase tracking-widest text-neutral-400 border-b border-transparent hover:border-neutral-400 transition-colors"
+          >
+            Forgot Password
+          </Link>
           <Link
             href="/"
             className="text-xs uppercase tracking-widest text-neutral-400 border-b border-transparent hover:border-neutral-400 transition-colors"
