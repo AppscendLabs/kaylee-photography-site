@@ -25,12 +25,12 @@ export default function HeroSection() {
           alt="Kaylee Light Photography"
           fill
           priority
-          className="object-cover object-center brightness-75"
+          className="object-cover object-center brightness-50"
           sizes="100vw"
         />
       </motion.div>
 
-      <div className="z-10 text-center text-white px-6 mix-blend-difference">
+      <div className="z-10 text-center text-white px-6" style={{ textShadow: "0 2px 20px rgba(0,0,0,0.4)" }}>
         <motion.h1
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
@@ -53,7 +53,7 @@ export default function HeroSection() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 1 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/70 flex flex-col items-center gap-4 mix-blend-difference"
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/70 flex flex-col items-center gap-4"
         aria-hidden="true"
       >
         <span className="text-xs uppercase tracking-widest">Scroll</span>
